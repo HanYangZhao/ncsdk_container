@@ -38,4 +38,4 @@ WORKDIR /home/movidius
 RUN git clone https://github.com/HanYangZhao/ncsdk.git
 WORKDIR /home/movidius/ncsdk
 RUN make install
-RUN make examples
+RUN make opencv
