@@ -35,7 +35,7 @@ COPY 10-installer /etc/sudoers.d/
 RUN mkdir -p /etc/udev/rules.d/
 USER movidius
 WORKDIR /home/movidius
-RUN git clone https://github.com/movidius/ncsdk.git
+RUN git clone https://github.com/HanYangZhao/ncsdk.git
 WORKDIR /home/movidius/ncsdk
 RUN make install
 RUN make examples
