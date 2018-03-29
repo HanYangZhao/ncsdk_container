@@ -1,23 +1,4 @@
 FROM ubuntu:16.04
-ARG http_proxy
-
-ARG https_proxy
-
-ENV http_proxy ${http_proxy}
-
-ENV https_proxy ${https_proxy}
-
-RUN echo $https_proxy
-
-RUN echo $http_proxy
-
-# Uncomment the two lines below if you wish to use an Ubuntu mirror repository
-# that is closer to you (and hence faster). The 'sources.list' file inside the
-# 'tools/docker/' folder is set to use one of Ubuntu's official mirror in Taiwan.
-# You should update this file based on your own location. For a list of official
-# Ubuntu mirror repositories, check out: https://launchpad.net/ubuntu/+archivemirrors
-#COPY sources.list /etc/apt
-#RUN rm /var/lib/apt/lists/* -vf
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -35,7 +16,10 @@ COPY 10-installer /etc/sudoers.d/
 RUN mkdir -p /etc/udev/rules.d/
 USER movidius
 WORKDIR /home/movidius
-RUN git clone https://github.com/HanYangZhao/ncsdk.git
+RUN git clone https://github.com/HanYangZhao/ncsdk
 WORKDIR /home/movidius/ncsdk
 RUN make install
 RUN make opencv
+RUN sudo cp 97-usbboot.rules /etc/udev/rules.d/
+RUN sudo udevadm control --reload-rules
+RUN sudo udevadm trigger
