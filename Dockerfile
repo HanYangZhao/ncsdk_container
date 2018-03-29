@@ -16,10 +16,9 @@ COPY 10-installer /etc/sudoers.d/
 RUN mkdir -p /etc/udev/rules.d/
 USER movidius
 WORKDIR /home/movidius
-RUN git clone https://github.com/HanYangZhao/ncsdk
+RUN git clone https://github.com/movidius/ncsdk
 WORKDIR /home/movidius/ncsdk
 RUN make install
-RUN make opencv
-RUN sudo cp 97-usbboot.rules /etc/udev/rules.d/
-RUN sudo udevadm control --reload-rules
 RUN sudo udevadm trigger
+RUN sudo usermod -a -G users movidius
+RUN make opencv
